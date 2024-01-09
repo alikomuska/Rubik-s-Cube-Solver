@@ -35,22 +35,63 @@ void insertMinHeap(Heap* heap, void* pointer, heapValuesDataType value){
    }
       
    heap->heapList[++(heap->lastItemIndex)] = node;   
+   int unsortedNodeIndex = heap->lastItemIndex;
+   int parentIndex = heap->lastItemIndex/2;
+   Node* temp;
 
-
+   while(parentIndex!=0){
+      if(heap->heapList[parentIndex]->value <= heap->heapList[unsortedNodeIndex]->value){
+         return;
+      } 
+      
+      temp = heap->heapList[parentIndex];
+      heap->heapList[parentIndex] = heap->heapList[unsortedNodeIndex];
+      heap->heapList[unsortedNodeIndex] = temp;
+      unsortedNodeIndex = parentIndex;
+      parentIndex = unsortedNodeIndex/2;
+   }
 }
 
 
 
 
-void deleteMinHeap(){
+void* deleteMinHeap(Heap* heap){
+   Node* returnNode = heap->heapList[1];
 
+   heap->heapList[1] = heap->heapList[heap->lastItemIndex];
+   Node* unsortedNode = heap->heapList[1];
+   Node* temp;
+   int unsortedNodeIndex = 1;
+   int unsortedNodeFirstChildeIndex = 2;
 
-
+   while(unsortedNodeFirstChildeIndex < heap->lastItemIndex){
+   
+      if(heap->heapList[unsortedNodeIndex*2] < heap->heapList[unsortedNodeIndex*2 + 1]){
+         if(heap->heapList[unsortedNodeIndex] < heap->heapList[unsortedNodeIndex*2]) return returnNode;    
+            temp = heap->heapList[unsortedNodeIndex];
+	    heap->heapList[unsortedNodeIndex] = heap->heapList[unsortedNodeIndex*2];
+	    heap->heapList[unsortedNodeIndex*2] = temp;
+	    unsortedNodeIndex*=2;
+	    unsortedNodeFirstChildeIndex = unsortedNodeIndex*2;
+      	    
+      }else{
+         if(heap->heapList[unsortedNodeIndex] < heap->heapList[unsortedNodeIndex*2 + 1]) return returnNode;    
+            temp = heap->heapList[unsortedNodeIndex];
+	    heap->heapList[unsortedNodeIndex] = heap->heapList[unsortedNodeIndex*2 + 1];
+	    heap->heapList[unsortedNodeIndex*2] = temp;
+	    unsortedNodeIndex = unsortedNodeIndex*2 + 1;
+	    unsortedNodeFirstChildeIndex = unsortedNodeIndex*2;      
+      }
+   }
 }
 
 
 void destroyHeap(Heap* heap){
    
+   for(int index=0; index <= heap->lastItemIndex; index++){
+      free(heap->heapList[index]);
+   }
+
    free(heap);
 
 }
