@@ -56,15 +56,19 @@ void insertMinHeap(Heap* heap, void* pointer, heapValuesDataType value){
 
 
 void* deleteMinHeap(Heap* heap){
+
+   if(heap->lastItemIndex==0) return NULL;
+	
    Node* returnNode = heap->heapList[1];
 
    heap->heapList[1] = heap->heapList[heap->lastItemIndex];
    Node* unsortedNode = heap->heapList[1];
+   heap->lastItemIndex--;
    Node* temp;
    int unsortedNodeIndex = 1;
    int unsortedNodeFirstChildeIndex = 2;
 
-   while(unsortedNodeFirstChildeIndex < heap->lastItemIndex){
+   while(unsortedNodeFirstChildeIndex <= heap->lastItemIndex){
    
       if(heap->heapList[unsortedNodeIndex*2] < heap->heapList[unsortedNodeIndex*2 + 1]){
          if(heap->heapList[unsortedNodeIndex] < heap->heapList[unsortedNodeIndex*2]) return returnNode;    
@@ -96,3 +100,12 @@ void destroyHeap(Heap* heap){
 
 }
 
+
+void printHeap(Heap* heap){
+
+   for(int i=1; i<=heap->lastItemIndex; i++){
+      printf("%f ", heap->heapList[i]->value);
+   
+   }
+   printf("\n");
+}

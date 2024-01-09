@@ -23,9 +23,11 @@ Heap* createMinHeap();
 
 void insertMinHeap(Heap* heap, void* pointer, heapValuesDataType);
 
-void deleteMInHeap(Heap* heap);
+void* deleteMinHeap(Heap* heap);
 
 void destroyHeap(Heap* heap);
+
+void printHeap(Heap* heap);
 
 
 #endif
