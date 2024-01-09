@@ -66,26 +66,34 @@ void* deleteMinHeap(Heap* heap){
    heap->lastItemIndex--;
    Node* temp;
    int unsortedNodeIndex = 1;
-   int unsortedNodeFirstChildeIndex = 2;
+   int unsortedNodeSecondChildeIndex = 3;
 
-   while(unsortedNodeFirstChildeIndex <= heap->lastItemIndex){
+   while(unsortedNodeSecondChildeIndex <= heap->lastItemIndex){
    
-      if(heap->heapList[unsortedNodeIndex*2] < heap->heapList[unsortedNodeIndex*2 + 1]){
-         if(heap->heapList[unsortedNodeIndex] < heap->heapList[unsortedNodeIndex*2]) return returnNode;    
+      if(heap->heapList[unsortedNodeIndex*2]->value < heap->heapList[unsortedNodeIndex*2 + 1]->value){
+         if(heap->heapList[unsortedNodeIndex]->value <= heap->heapList[unsortedNodeIndex*2]->value) return returnNode;    
             temp = heap->heapList[unsortedNodeIndex];
 	    heap->heapList[unsortedNodeIndex] = heap->heapList[unsortedNodeIndex*2];
 	    heap->heapList[unsortedNodeIndex*2] = temp;
 	    unsortedNodeIndex*=2;
-	    unsortedNodeFirstChildeIndex = unsortedNodeIndex*2;
+	    unsortedNodeSecondChildeIndex = unsortedNodeIndex*2 + 1;
       	    
       }else{
-         if(heap->heapList[unsortedNodeIndex] < heap->heapList[unsortedNodeIndex*2 + 1]) return returnNode;    
+         if(heap->heapList[unsortedNodeIndex]->value <= heap->heapList[unsortedNodeIndex*2 + 1]->value) return returnNode;    
             temp = heap->heapList[unsortedNodeIndex];
 	    heap->heapList[unsortedNodeIndex] = heap->heapList[unsortedNodeIndex*2 + 1];
-	    heap->heapList[unsortedNodeIndex*2] = temp;
+	    heap->heapList[unsortedNodeIndex*2 + 1] = temp;
 	    unsortedNodeIndex = unsortedNodeIndex*2 + 1;
-	    unsortedNodeFirstChildeIndex = unsortedNodeIndex*2;      
+	    unsortedNodeSecondChildeIndex = unsortedNodeIndex*2 + 1;      
       }
+   }
+
+   if((unsortedNodeIndex*2 <= heap->lastItemIndex) && (heap->heapList[unsortedNodeIndex*2]->value < heap->heapList[unsortedNodeIndex]->value)){
+   
+      temp = heap->heapList[unsortedNodeIndex];
+      heap->heapList[unsortedNodeIndex] = heap->heapList[unsortedNodeIndex*2];
+      heap->heapList[unsortedNodeIndex*2] = temp;
+   
    }
 }
 
